@@ -1,0 +1,113 @@
+<main>
+  <section>
+    <div class="container">
+      <div class="details-container">
+        <div class="header-container">
+          <h1>Mortgage Calculator</h1>
+          <button class="clear-button" (click)="clearForm()">Clear all</button>
+        </div>
+        <form [formGroup]="mortgageForm" (ngSubmit)="calculateRepayment()">
+          <div class="amount">
+            <label for="mortgage-amount-input">Mortgage Amount</label>
+            <input
+              type="number"
+              id="mortgage-amount-input"
+              formControlName="mortgageAmount"
+            />
+            <div class="pound-symbol symbol-background">&pound;</div>
+            <p class="error-msg" *ngIf="mortgageForm.controls['mortgageAmount'].invalid && mortgageForm.controls['mortgageAmount'].touched">
+              This field is required
+            </p>
+          </div>
+
+          <div class="term-interest-container">
+            <div class="term-container">
+              <label for="mortgage-term-input">Mortgage Term</label>
+              <input
+                type="number"
+                id="mortgage-term-input"
+                formControlName="mortgageTerm"
+              />
+              <div class="year-symbol symbol-background">year</div>
+              <p class="error-msg" *ngIf="mortgageForm.controls['mortgageTerm'].invalid && mortgageForm.controls['mortgageTerm'].touched">
+                This field is required
+              </p>
+            </div>
+
+            <div class="interest-container">
+              <label for="interest-rate-input">Interest Rate</label>
+              <input
+                type="number"
+                id="interest-rate-input"
+                formControlName="interestRate"
+              />
+              <div class="percent-symbol symbol-background">%</div>
+              <p class="error-msg" *ngIf="mortgageForm.controls['interestRate'].invalid && mortgageForm.controls['interestRate'].touched">
+                This field is required
+              </p>
+            </div>
+          </div>
+
+          <div class="type-container">
+            <label>Mortgage Type</label>
+            <label class="done" for="repayment-option">
+              <input
+
+                type="radio"
+                id="repayment-option"
+                formControlName="mortgageType"
+                value="repayment"
+              />
+              Repayment
+            </label>
+            <label class="done" for="interest-only-option">
+              <div class="title">
+              <input
+                class="done"
+                type="radio"
+                id="interest-only-option"
+                formControlName="mortgageType"
+                value="interestOnly"
+              /></div>
+              <div class="title">
+              Interest Only</div>
+            </label>
+            <p class="error-msg" *ngIf="mortgageForm.controls['mortgageType'].invalid && mortgageForm.controls['mortgageType'].touched">
+              Please select a mortgage type
+            </p>
+          </div>
+
+          <button class="calculate-button" type="submit">
+            <img src="assets/images/icon-calculator.svg" alt="Calculator Icon" />
+            <span>Calculate Repayments</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="results-container">
+        <div class="results-header" *ngIf="!showResults">
+          <img src="assets/images/illustration-empty.svg" alt="Empty Results" />
+          <h2>Results shown here</h2>
+          <p>Complete the form and click “Calculate Repayments” to see results.</p>
+        </div>
+
+        <div class="results-details" *ngIf="showResults">
+          <h2>Your Results</h2>
+          <p>Your results are shown below based on the information provided.</p>
+
+          <div class="results-summary">
+            <p class="monthly-repayment-label" *ngIf="mortgageForm.value.mortgageType === 'repayment'">
+              Your monthly repayment</p>
+            <h3 class="monthly-repayment label-amount" *ngIf="mortgageForm.value.mortgageType === 'repayment'">
+              {{ monthlyRepayment }}</h3>
+            <hr />
+            <p class="total-repayment-label" *ngIf="mortgageForm.value.mortgageType === 'interestOnly'">
+              Total you'll repay over the term</p>
+            <h3 class="total-repayment label-amount" *ngIf="mortgageForm.value.mortgageType === 'interestOnly'">
+              {{ totalRepayment }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
